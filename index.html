@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+        .container {
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            width: 100%;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .delete-button {
+            background-color: #f44336;
+        }
+        .delete-button:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Staff Management System</h1>
+</header>
+
+<div class="container">
+
+    <!-- Form to Add Staff -->
+    <div class="form-container">
+        <h2>Add New Staff</h2>
+        <form id="addStaffForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position" required><br>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" required><br>
+
+            <button type="submit">Add Staff</button>
+        </form>
+    </div>
+
+    <!-- Staff Table -->
+    <h2>Staff List</h2>
+    <table id="staffTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Staff data will appear here -->
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    // Array to hold staff data
+    let staffList = [];
+
+    // Function to display staff list
+    function displayStaff() {
+        const tableBody = document.getElementById("staffTable").getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ""; // Clear existing table rows
+
+        staffList.forEach((staff, index) => {
+            let row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${staff.name}</td>
+                <td>${staff.position}</td>
+                <td>${staff.salary}</td>
+                <td><button class="delete-button" onclick="deleteStaff(${index})">Delete</button></td>
+            `;
+        });
+    }
+
+    // Add staff function
+    document.getElementById("addStaffForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form from submitting
+
+        const name = document.getElementById("name").value;
+        const position = document.getElementById("position").value;
+        const salary = document.getElementById("salary").value;
+
+        // Add staff to array
+        staffList.push({ name, position, salary });
+
+        // Clear form inputs
+        document.getElementById("name").value = "";
+        document.getElementById("position").value = "";
+        document.getElementById("salary").value = "";
+
+        // Display updated staff list
+        displayStaff();
+    });
+
+    // Delete staff function
+    function deleteStaff(index) {
+        staffList.splice(index, 1); // Remove staff from array
+        displayStaff(); // Update table
+    }
+</script>
+
+</body>
+</html>
